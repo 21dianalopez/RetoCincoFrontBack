@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>New Message</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bitter:400,700">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
+    <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="assets/css/Contact-Form-Clean.css">
+    <link rel="stylesheet" href="assets/css/Footer-Dark.css">
+    <link rel="stylesheet" href="assets/css/Header-Blue.css">
+    <link rel="stylesheet" href="assets/css/Header-Dark.css">
+    <link rel="stylesheet" href="assets/css/fondos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.4.8/swiper-bundle.min.css">
+    <link rel="stylesheet" href="assets/css/Login-Form-Dark-1.css">
+    <link rel="stylesheet" href="assets/css/Login-Form-Dark.css">
+    <link rel="stylesheet" href="assets/css/Navigation-with-Button.css">
+    <link rel="stylesheet" href="assets/css/Registration-Form-with-Photo.css">
+    <link rel="stylesheet" href="assets/css/Simple-Slider.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body class="imagenFondoNuevoMessage" style="background-image: url(&quot;https://miguelangeldiaz.net/wp-content/uploads/2016/06/libreria.jpg&quot;);">
+    <section class="register-photo" style="background: linear-gradient(-192deg, #187ba1, rgb(35 29 66) 50%)">
+        <div class="form-container" style="border-radius: 28px; display: flex; justify-content: space-around; padding: 25px;">
+            
+            <div class="">
+                
+                <h2 class="text-center"><strong>New Message</strong></h2>
+                <div class="mb-3"><textarea type="text" class="form-control" id="messageText"  name="messageText" placeholder="MessageText"></textarea></div>
+                <div class="mb-3"><input class="form-control" id="client" name="client" placeholder="Client" /></div>
+                <div class="mb-3"><input class="form-control" id="lib" name="lib" placeholder="Lib" /></div>
+                <div class="mb-3"><button class="btn btn-primary d-block w-100" data-bss-hover-animate="pulse" onclick="newCubicle()" style="background: var(--bs-gray);border-radius: 18px;">New Message</button></div>
+            </div>
+            <div class="image-holder" style="background: url(https://st4.depositphotos.com/11910190/29991/i/600/depositphotos_299917224-stock-photo-e-commerce-digital-network-email.jpg);"></div>
+        </div>
+    </section>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script type="text/javascript">
+        function newCubicle(){
+            clientId = {idClient:$("#client").val()};
+            libId = {id:$("#lib").val()};
+            let mydata={
+                //id: $("#id").val(),
+                messageText:$("#messageText").val(),
+                client:clientId,
+                lib:libId,
+            };
+            //let dataToSend=JSON.stringifi(mydata);
+            
+            
+            $.ajax({
+                
+                type:'POST',
+                contentType: "application/json; charset=utf-8",
+                dataType: 'JSON',
+                data: JSON.stringify(mydata),
+                url:"http://144.22.56.43:8080/api/Message/save",
+                statusCode:{
+                    201:function(respuesta){
+                        alert("agregado");
+                        window.location.href ="http://127.0.0.1:5500/message.html";
+                    }
+
+                },
+                // success: function(respuesta) {
+                //     window.location.href ="http://127.0.0.1:5500/untitled-5.html";
+                // },
+                
+                error: function(jqXHR,textStatus, errorThrown){
+                     
+
+                },
+                
+            });
+        }
+        
+    </script> 
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/bs-init.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.4.8/swiper-bundle.min.js"></script>
+    <script src="assets/js/Simple-Slider.js"></script>
+</body>
+
+</html>

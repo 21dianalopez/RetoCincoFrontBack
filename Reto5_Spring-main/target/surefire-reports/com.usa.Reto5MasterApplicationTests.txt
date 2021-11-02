@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.usa.Reto5MasterApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 9.152 s - in com.usa.Reto5MasterApplicationTests

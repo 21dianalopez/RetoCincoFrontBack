@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>New Cubicle</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bitter:400,700">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
+    <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="assets/css/Contact-Form-Clean.css">
+    <link rel="stylesheet" href="assets/css/Footer-Dark.css">
+    <link rel="stylesheet" href="assets/css/Header-Blue.css">
+    <link rel="stylesheet" href="assets/css/Header-Dark.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.4.8/swiper-bundle.min.css">
+    <link rel="stylesheet" href="assets/css/Login-Form-Dark-1.css">
+    <link rel="stylesheet" href="assets/css/Login-Form-Dark.css">
+    <link rel="stylesheet" href="assets/css/Navigation-with-Button.css">
+    <link rel="stylesheet" href="assets/css/Registration-Form-with-Photo.css">
+    <link rel="stylesheet" href="assets/css/Simple-Slider.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script type="text/javascript">
+        function newCubicle(){
+            hola = {id:$("#category_id").val()}
+            let mydata={
+                //id: $("#id").val(),
+                name:$("#name").val(),
+                target:$("#target").val(),
+                capacity:$("#capacity").val(),
+                description:$("#description").val(),
+                category:hola,
+            };
+            //let dataToSend=JSON.stringifi(mydata);
+            
+            
+            $.ajax({
+                
+                type:'POST',
+                contentType: "application/json; charset=utf-8",
+                dataType: 'JSON',
+                data: JSON.stringify(mydata),
+                url:"http://144.22.56.43:8080/api/Lib/save",
+                statusCode:{
+                    201:function(respuesta){
+                        alert("agregado");
+                        window.location.href ="http://127.0.0.1:5500/cubicle.html";
+                    }
+
+                },
+                // success: function(respuesta) {
+                //     window.location.href ="http://127.0.0.1:5500/untitled-5.html";
+                // },
+                
+                error: function(jqXHR,textStatus, errorThrown){
+                     
+
+                },
+                
+            });
+        }
+        
+    </script> 
+</head>
+
+<body>
+    <section class="register-photo" style="background: linear-gradient(-117deg, black, rgb(125 57 11) 86%);height: 655px;">
+        <div class="form-container" style="border-radius: 28px; display: flex; justify-content: space-around; padding: 25px;">
+            <div class="image-holder" style="background-image: url(https://www.betterteam.com/images/reservation-agent-job-description-2619x3929-20201119.jpeg?crop=40:21,smart&width=1200&dpr=2)"></div>
+            <div class="">
+                <h2 class="text-center"><strong>New Cubicle</strong></h2>
+                <div class="mb-3"><input  class="form-control" id="id"  name="id" placeholder="ID" /></div>
+                <div class="mb-3"><input class="form-control" id="target" name="target" placeholder="Target" /></div>
+                <div class="mb-3"><input class="form-control" id="capacity" name="capacity" placeholder="Capacity" /></div>
+                <div class="mb-3"><input class="form-control"  id="category_id" name="category_id" placeholder="Category_Id" /></div>
+                <div class="mb-3"><input class="form-control"  id="name" name="name" placeholder="Name" /></div>
+                <div class="mb-3"><input class="form-control"  id="description" name="name" placeholder="description"/></div>
+                <div class="mb-3"><button class="btn btn-primary d-block w-100" data-bss-hover-animate="jello" onclick="newCubicle()" style="background: var(--bs-gray);border-radius: 18px;">New Cubicle</button></div>
+            </div>
+        </div>
+    </section>
+    
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/bs-init.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.4.8/swiper-bundle.min.js"></script>
+    <script src="assets/js/Simple-Slider.js"></script>
+</body>
+
+</html>

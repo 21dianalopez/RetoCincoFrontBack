@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Admin</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bitter:400,700">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
+    <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="assets/css/Contact-Form-Clean.css">
+    <link rel="stylesheet" href="assets/css/Footer-Dark.css">
+    <link rel="stylesheet" href="assets/css/Header-Blue.css">
+    <link rel="stylesheet" href="assets/css/Header-Dark.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.4.8/swiper-bundle.min.css">
+    <link rel="stylesheet" href="assets/css/Login-Form-Dark-1.css">
+    <link rel="stylesheet" href="assets/css/Login-Form-Dark.css">
+    <link rel="stylesheet" href="assets/css/Navigation-with-Button.css">
+    <link rel="stylesheet" href="assets/css/Registration-Form-with-Photo.css">
+    <link rel="stylesheet" href="assets/css/Simple-Slider.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+
+   
+</head>
+
+<body style="transform: perspective(0px); color: azure; height: 100vh" class="imagenFondoBiblioteca">
+    <header class="header-blue" style="transform: perspective(0px); background: transparent;">
+        <nav class="navbar navbar-dark navbar-expand-md navigation-clean-search">
+            <div class="container-fluid"><a class="navbar-brand" href="#">Cubicle<br></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navcol-1">
+                    <ul class="navbar-nav"></ul>
+                    <form class="d-flex me-auto navbar-form" target="_self">
+                        <div class="d-flex align-items-center"><input class="form-control search-field" type="search" id="search-field" name="search"></div>
+                    </form><span class="navbar-text"> </span><a class="btn btn-light action-button" role="button" href="#">Sign Up</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="tituloTabla">
+        <h1 style="margin: 57px 0px 25px; color: white;">Cubicle</h1>
+        <button class="btn btn-light btn-lg action-button botones" type="button"><a href="/newCubicle.html" style="text-decoration: none; color:black;">New&nbsp;&nbsp;cubicle<br></a></button>
+    </div>
+    
+    <div class="col-12 col-lg-6 col-xl-5 offset-xl-1 conte1">
+       
+        <div class="table-responsive">
+            <table class="table tablaDiseño">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Target</th>
+                        <th>Capacity</th>
+                        <th>Category_id</th>
+                        <th>name</th>
+                    </tr>
+                </thead>
+                <tbody class="cuerpoTabla">
+                    
+                </tbody>
+            </table>
+        </div>
+        <div class="conte2">
+            <div class="cuerpo">
+    
+            </div>
+            
+        </div>
+    </div>
+    
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> 
+            
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script type="text/javascript">
+        function cargarTabla(){
+           $.ajax({            
+              url: 'http://144.22.56.43:8080/api/Lib/all',
+              type: 'GET',
+              dataType: 'JSON',
+              success: function(response){
+                 var resultado = "";
+                 response.forEach(function(items){
+                    resultado +="<tr><td class="+items.id+" id=borrar"+items.id+">"+items.id+"</td><td>";
+                    resultado +=items.target+"</td><td>";
+                    resultado +=items.capacity+"</td><td>";
+                    resultado +=items.category.id+"</td><td>";
+                    resultado +=items.name+"</td><td>";
+                    resultado +="<button onclick=\"editar("+items.id+")\" class=\"btn btn-light btn-lg action-button botones\">Editar</button><button onclick=\"borrar("+items.id+")\" class=\"btn btn-light btn-lg action-button botones\">Borrar</button></td></tr>";
+                 });
+                 $(".cuerpoTabla").html(resultado);
+
+              },
+              error: function(xhr,status){
+                 //console.log(xhr,responseText);
+              },
+              complete: function(xhr,status){
+                //  console.log(xhr,responseText);
+              }
+           });
+        }
+        
+        function borrar(idBorrar){
+            var id = idBorrar;
+            var direccion = 'http://144.22.56.43:8080/api/Lib/'+ idBorrar ;
+            let mydata={
+                id:id,
+            }; 
+            let dataToSend = JSON.stringify(mydata); 
+            
+           $.ajax({                
+                url: direccion,
+                type: 'DELETE',
+                data:dataToSend,
+                contentType: 'application/json',
+                dataType: 'json',
+                statusCode:{
+                    204:function(respuesta){
+                        cargarTabla();
+                        $("#respuesta").empty();
+                        alert("se elimino el dato")
+                    }
+                },
+                // success:function(respuesta){
+                    
+                //     $("#respuesta").empty();
+                    
+                //     alert("se elimino")
+                //     cargarTabla();
+                // },
+
+                error: function(jqXHR,textStatus, errorThrown){
+                    console.log(xhr,responseText);
+                    alert("");
+
+                },
+                complete: function(xhr,status){
+                    console.log(xhr,status)
+                   
+                }
+            });
+
+        }
+
+        function editar(idEditar){
+            
+            $.ajax({              
+              url:'http://144.22.56.43:8080/api/Lib/all',
+              type: 'GET',
+              dataType: 'json',
+              success: function(response){
+                 var resultado = "";
+                 response.forEach(function(items) {
+                     if (items.id == idEditar){
+                        resultado +="<label class=\"labeleditar\">Id<input id=\"ideditado\" value="+items.id+"></label><label id=\"labeleditar\">Target<input class=\"targeteditado\" value=";
+                        resultado +=items.target+"></label><label class=\"labeleditar\">Capacity<input id=\"capacityeditado\"  value=";
+                        resultado +=items.capacity+"></label><label class=\"labeleditar\">Category_id<input id=\"category_ideditado\"  value=";
+                        resultado +=items.category.id+"></label><label class=\"labeleditar\">Name<input id=\"nameeditado\" value=";
+                        resultado +=items.name+"></label>";
+                        resultado +="<button onclick=\"editar2("+idEditar+")\" class=\"btn btn-light btn-lg action-button botones\">Editar</button>";
+                     }
+                     $(".cuerpo").html(resultado);
+                   
+                 });
+                 
+
+              },
+              error: function(xhr,status){
+                 console.log(xhr,responseText);
+              },
+              complete: function(xhr,status){
+                //  console.log(xhr,responseText);
+              }
+           });
+                
+         }
+
+        function editar2(idEditar){
+            let editado={
+                id : $("#ideditado").val(),
+                target :$("#targeteditado").val(),
+                capacity : $("#capacityeditado").val(),
+                category :$("#category_ideditado").val(),
+                name : $("#nameeditado").val(),
+            };
+            let dataToSend=JSON.stringify(editado);
+            $.ajax({                
+                url:'http://144.22.56.43:8080/api/Lib/update',
+                type:"PUT",
+                data:dataToSend,
+                contentType:"application/json",
+                datatype:"json",
+                success:function(respuesta){
+                    $("respuesta").empty;
+                    $("#ideditado").val("");
+                    $("#targeteditado").val("");
+                    $("#capacityeditado").val("");
+                    $("#category_ideditado").val("");
+                    $("#nameeditado").val("");
+                    alert("se actualizo el dato");
+                    cargarTabla()
+                }
+            });
+        }
+        
+        $(document).ready(function(){
+            
+            cargarTabla();
+        });
+    </script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/bs-init.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.4.8/swiper-bundle.min.js"></script>
+    <script src="assets/js/Simple-Slider.js"></script>
+    
+</body>
+
+</html>

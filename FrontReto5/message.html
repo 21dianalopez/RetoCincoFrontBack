@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Messages</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bitter:400,700">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
+    <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="assets/css/Contact-Form-Clean.css">
+    <link rel="stylesheet" href="assets/css/Footer-Dark.css">
+    <link rel="stylesheet" href="assets/css/Header-Blue.css">
+    <link rel="stylesheet" href="assets/css/Header-Dark.css">
+    <link rel="stylesheet" href="assets/css/fondos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.4.8/swiper-bundle.min.css">
+    <link rel="stylesheet" href="assets/css/Login-Form-Dark-1.css">
+    <link rel="stylesheet" href="assets/css/Login-Form-Dark.css">
+    <link rel="stylesheet" href="assets/css/Navigation-with-Button.css">
+    <link rel="stylesheet" href="assets/css/Registration-Form-with-Photo.css">
+    <link rel="stylesheet" href="assets/css/Simple-Slider.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script type="text/javascript">
+        function cargarTabla(){
+           $.ajax({
+              url: 'http://144.22.56.43:8080/api/Message/all',
+              type: 'GET',
+              dataType: 'json',
+              success: function(response){
+                 var resultado = "";
+                 response.forEach(function(items) {
+                    resultado +="<tr><td class="+items.idMessage+" id=borrar"+items.idMessage+" style=\"display:none\">"+items.idMessage+"</td><td>";
+                    resultado +=items.messageText+"</td><td>";
+                    resultado +=items.client.idClient+"</td><td>";
+                    resultado +=items.lib.id+"</td><td>";
+                    resultado +="<button onclick=\"editar("+items.idMessage+")\" class=\"btn btn-light btn-lg action-button botones\">Editar</button><button onclick=\"borrar("+items.idMessage+")\" class=\"btn btn-light btn-lg action-button botones\">Borrar</button></td></tr>";
+                 });
+                 $(".cuerpoTabla").html(resultado);
+
+              },
+              error: function(xhr,status){
+                 console.log(xhr,responseText);
+              },
+              complete: function(xhr,status){
+                //  console.log(xhr,responseText);
+              }
+           });
+        }
+        
+        function borrar(idBorrar){
+            var id = idBorrar;
+            let mydata={
+                id:id,
+            }; 
+            let dataToSend = JSON.stringify(mydata); 
+            
+           $.ajax({
+                url:'http://144.22.56.43:8080/api/Message/'+ idBorrar,
+                type: 'DELETE',
+                data:dataToSend,
+                contentType: 'aplication/JSON',
+                dataType: 'JSON',
+                // statusCode:{
+                //     204:function(respuesta){
+                //         cargarTabla();
+                //         $("#respuesta").empty();
+                //         alert("se elimino el dato")
+                //     }
+                // },
+                success:function(respuesta){
+                    
+                    $("#respuesta").empty();
+                    
+                    alert("se elimino")
+                    cargarTabla();
+                },
+
+                error: function(jqXHR,textStatus, errorThrown){
+                    console.log(xhr,responseText);
+                    alert("mierda");
+
+                },
+                complete: function(xhr,status){
+                    console.log(xhr,status)
+                   
+                }
+            });
+
+        }
+
+        function editar(idEditar){
+            $.ajax({
+              url: 'http://144.22.56.43:8080/api/Message/all',
+              type: 'GET',
+              dataType: 'json',
+              success: function(response){
+                 var resultado = "";
+                 response.forEach(function(items) {
+                     if (items.idMessage == idEditar){
+                        resultado +="<label class=\"labeleditar\">Message<textarea id=\"messageeditado\" value="+items.messageText+"></textarea></label>";
+                        resultado +="<button onclick=\"editar2("+idEditar+")\" class=\"btn btn-light btn-lg action-button botones\">Editar</button>";
+                     }
+                     $(".cuerpo").html(resultado);
+                   
+                 });
+                 
+
+              },
+              error: function(xhr,status){
+                 console.log(xhr,responseText);
+              },
+              complete: function(xhr,status){
+                //  console.log(xhr,responseText);
+              }
+           });
+                
+         }
+
+        function editar2(idEditar){
+            let editado={
+                idMessage:idEditar,
+                messageText:$("#messageeditado").val(),
+            };
+            let dataToSend=JSON.stringify(editado);
+            $.ajax({
+                url:"http://144.22.56.43:8080/api/Message/update",
+                type:"PUT",
+                data:dataToSend,
+                contentType:"application/JSON; charset=utf-8",
+                datatype:"JSON",
+                success:function(respuesta){
+                    $("#respuesta").empty;
+                    $("#messageeditado").val("");
+                    
+                    
+                    alert("se actualizo el dato");
+                    cargarTabla()
+                }
+            });
+        }
+        
+        $(document).ready(function(){
+            
+            cargarTabla();
+        });
+    </script>
+</head>
+
+
+<body style="transform: perspective(0px); color: azure; height: 100vh" class="imagenFondoMessage">
+        <header class="header-blue" style="transform: perspective(0px); background: transparent;">
+            <nav class="navbar navbar-dark navbar-expand-md navigation-clean-search">
+                <div class="container-fluid"><a class="navbar-brand" href="#">Message<br></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navcol-1">
+                        <ul class="navbar-nav"></ul>
+                        <form class="d-flex me-auto navbar-form" target="_self">
+                            <div class="d-flex align-items-center"><input class="form-control search-field" type="search" id="search-field" name="search"></div>
+                        </form><span class="navbar-text"> </span><a class="btn btn-light action-button" role="button" href="#">Sign Up</a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div class="tituloTabla">
+            <h1 style="margin: 57px 0px 25px; color: white;">Messages</h1>
+            <button class="btn btn-light btn-lg action-button botones" type="button"><a href="/newMessage.html" style="text-decoration: none; color:black;">New&nbsp;&nbsp;Messages<br></a></button>
+        </div>
+        
+        <div class="col-12 col-lg-6 col-xl-5 offset-xl-1 conte1">
+           
+            <div class="table-responsive">
+                <table class="table tablaDiseño">
+                    <thead>
+                        <tr>
+                            <th>MessageText</th>
+                            <th>Client</th>
+                            <th>Libs</th>
+                        </tr>
+                    </thead>
+                    <tbody class="cuerpoTabla">
+                        
+                    </tbody>
+                </table>
+            </div>
+            <div class="conte2">
+                <div class="cuerpo">
+        
+                </div>
+                
+            </div>
+        </div>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/bs-init.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.4.8/swiper-bundle.min.js"></script>
+    <script src="assets/js/Simple-Slider.js"></script>
+</body>
+
+</html>

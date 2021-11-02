@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Reservation</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bitter:400,700">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
+    <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="assets/css/Contact-Form-Clean.css">
+    <link rel="stylesheet" href="assets/css/Footer-Dark.css">
+    <link rel="stylesheet" href="assets/css/Header-Blue.css">
+    <link rel="stylesheet" href="assets/css/Header-Dark.css">
+    <link rel="stylesheet" href="assets/css/fondos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.4.8/swiper-bundle.min.css">
+    <link rel="stylesheet" href="assets/css/Login-Form-Dark-1.css">
+    <link rel="stylesheet" href="assets/css/Login-Form-Dark.css">
+    <link rel="stylesheet" href="assets/css/Navigation-with-Button.css">
+    <link rel="stylesheet" href="assets/css/Registration-Form-with-Photo.css">
+    <link rel="stylesheet" href="assets/css/Simple-Slider.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+
+   
+</head>
+
+<body style="transform: perspective(0px); color: azure; height: 100vh" class="imagenFondoReservation">
+    <header class="header-blue" style="transform: perspective(0px); background: transparent;">
+        <nav class="navbar navbar-dark navbar-expand-md navigation-clean-search">
+            <div class="container-fluid"><a class="navbar-brand" href="#">Reservation<br></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navcol-1">
+                    <ul class="navbar-nav"></ul>
+                    <form class="d-flex me-auto navbar-form" target="_self">
+                        <div class="d-flex align-items-center"><input class="form-control search-field" type="search" id="search-field" name="search"></div>
+                    </form><span class="navbar-text"> </span><a class="btn btn-light action-button" role="button" href="#">Sign Up</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="tituloTabla">
+        <h1 style="margin: 57px 0px 25px; color: white;">Reservation</h1>
+        <button class="btn btn-light btn-lg action-button botones" type="button"><a href="/newReservation.html" style="text-decoration: none; color:black;">New&nbsp;&nbsp;Reservation<br></a></button>
+    </div>
+    
+    <div class="col-12 col-lg-6 col-xl-5 offset-xl-1 conte1" style="width: 1348px" >
+       
+        <div class="table-responsive">
+            <table class="table tablaDiseño">
+                <thead>
+                    <tr>
+                        <th>Star date</th>
+                        <th>Devolution Date</th>
+                        <th>Client</th>
+                        <th>Lib</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody class="cuerpoTabla">
+                    
+                </tbody>
+            </table>
+        </div>
+        <div class="conte2">
+            <div class="cuerpo">
+    
+            </div>
+            
+        </div>
+    </div>
+    
+    <div class="tituloTabla">
+        <h1 style="margin: 57px 0px 25px; color: white;">Check reservations</h1>
+        <table class="table tablaDiseño">
+            <thead>
+                <tr>
+                    <th>First date</th>
+                    <th>second date</th>
+                </tr>
+                <tr>
+                    <th><input type="text" id="first"></th>
+                    <th><input type="text" id="second"></th>
+                </tr>
+            </thead>
+            
+        </table>
+        <table class="table tablaDiseño">
+            <thead class="encabezadoConsulta">
+
+            </thead>
+            <tbody class="cuerpoTablaConsultarReservas">
+                
+            </tbody>
+        </table>
+
+        <button class="btn btn-light btn-lg action-button botones" type="button" onclick="checkReservation()">New&nbsp;&nbsp;Consult<br></button>
+    </div>
+
+    <div class="tituloTabla">
+        <h1 style="margin: 57px 0px 25px; color: white;">Global count</h1>
+        <button class="btn btn-light btn-lg action-button botones" type="button" onclick="globalCount()">Consult<br></button>
+        <table class="table tablaDiseño">
+            <thead class="encabezadoGlobalCount">
+
+            </thead>
+            <tbody class="cuerpoTablaGlobalCount">
+                
+            </tbody>
+        </table>
+    </div>
+    <div class="tituloTabla">
+        <h1 style="margin: 57px 0px 25px; color: white;">Top Client</h1>
+        <button class="btn btn-light btn-lg action-button botones" type="button" onclick="topClient()">Consult<br></button>
+        <table class="table tablaDiseño">
+            <thead class="encabezadoTopClient">
+                
+            </thead>
+            <tbody class="cuerpoTablaTopClient">
+                
+            </tbody>
+        </table>
+    </div>
+    
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> 
+            
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script type="text/javascript">
+        function cargarTabla(){
+           $.ajax({            
+              url: 'http://144.22.56.43:8080/api/Reservation/all',
+              type: 'GET',
+              dataType: 'JSON',
+              success: function(response){
+                 var resultado = "";
+                 response.forEach(function(items){
+                    resultado +="<tr><td class="+items.idReservation+" id=borrar"+items.idReservation+" style=\"display:none\">"+items.idReservation+"</td><td>";
+                    resultado +=items.startDate+"</td><td>";
+                    resultado +=items.devolutionDate+"</td><td>";
+                    resultado +=items.client.idClient+"</td><td>";
+                    resultado +=items.lib+"</td><td>";
+                    resultado +=items.status+"</td><td>";
+                    resultado +="<button onclick=\"editar("+items.idReservation+")\" class=\"btn btn-light btn-lg action-button botones\">Editar</button><button onclick=\"borrar("+items.idReservation+")\" class=\"btn btn-light btn-lg action-button botones\">Borrar</button></td></tr>";
+                 });
+                 $(".cuerpoTabla").html(resultado);
+
+              },
+              error: function(xhr,status){
+                 //console.log(xhr,responseText);
+              },
+              complete: function(xhr,status){
+                //  console.log(xhr,responseText);
+              }
+           });
+        }
+        
+        function borrar(idBorrar){
+            var id = idBorrar;
+            var direccion = 'http://144.22.56.43:8080/api/Reservation/'+ idBorrar ;
+            let mydata={
+                id:id,
+            }; 
+            let dataToSend = JSON.stringify(mydata); 
+            
+           $.ajax({                
+                url: direccion,
+                type: 'DELETE',
+                data:dataToSend,
+                contentType: 'application/json',
+                dataType: 'json',
+                statusCode:{
+                    204:function(respuesta){
+                        cargarTabla();
+                        $("#respuesta").empty();
+                        alert("se elimino el dato")
+                    }
+                },
+                // success:function(respuesta){
+                    
+                //     $("#respuesta").empty();
+                    
+                //     alert("se elimino")
+                //     cargarTabla();
+                // },
+
+                error: function(jqXHR,textStatus, errorThrown){
+                    console.log(xhr,responseText);
+                    alert("");
+
+                },
+                complete: function(xhr,status){
+                    console.log(xhr,status)
+                   
+                }
+            });
+
+        }
+
+        function editar(idEditar){
+            
+            $.ajax({              
+              url:'http://144.22.56.43:8080/api/Reservation/all',
+              type: 'GET',
+              dataType: 'json',
+              success: function(response){
+                 var resultado = "";
+                 response.forEach(function(items) {
+                     if (items.idReservation == idEditar){
+                        resultado +="<label id=\"labeleditar\">Star date<input class=\"startDateeditado\" value="+items.starDate+"></label><label class=\"labeleditar\">Devolution date<input id=\"devolutionDateeditado\"  value=";
+                        resultado +=items.devolutionDate+"></label><label class=\"labeleditar\">Status<input id=\"statuseditado\"  value=";
+                        resultado +=items.status+"></label>";
+                        resultado +="<button onclick=\"editar2("+idEditar+")\" class=\"btn btn-light btn-lg action-button botones\">Editar</button>";
+                     }
+                     $(".cuerpo").html(resultado);
+                   
+                 });
+                 
+
+              },
+              error: function(xhr,status){
+                 console.log(xhr,responseText);
+              },
+              complete: function(xhr,status){
+                //  console.log(xhr,responseText);
+              }
+           });
+                
+         }
+
+        function editar2(idEditar){
+            
+            let editado={
+                idReservation:idEditar,
+                startDate:$("#startDateteditado").val(),
+                devolutionDate:$("#devolutionDateeditado").val(),
+                status:$("#statuseditado").val(),
+                
+            };
+            let dataToSend=JSON.stringify(editado);
+            $.ajax({                
+                url:'http://144.22.56.43:8080/api/Reservation/update',
+                type:"PUT",
+                data:dataToSend,
+                contentType:"application/json",
+                datatype:"json",
+                success:function(respuesta){
+                    $("respuesta").empty;
+                    $("#starDateteditado").val("");
+                    $("#devolutionDateeditado").val("");
+                    $("#statuseditado").val("");
+                    alert("se actualizo el dato");
+                    cargarTabla()
+                }
+            });
+        }
+        
+        function checkReservation(){
+            let fecha1 = $("#first").val()
+            let fecha2 = $("#second").val()
+            var hola = ""
+            
+            hola+="<tr><td style=\"display:none\">idReservation</td><td>"
+            hola +="startDate</td><td>"
+            hola +="devolutionDate</td><td>"
+            hola +="client.name</td><td>"
+            hola +="lib</td><td>"
+            hola +="status</td><tr>"
+            $(".encabezadoConsulta").html(hola)
+            $.ajax({            
+              url: 'http://144.22.56.43:8080/api/Reservation/report-dates/'+fecha1+'/'+fecha2,
+              type: 'GET',
+              dataType: 'JSON',
+              success: function(response){
+                 var resultado = "";
+                 response.forEach(function(items){
+                    resultado +="<tr><td class="+items.idReservation+" id=borrar"+items.idReservation+" style=\"display:none\">"+items.idReservation+"</td><td>";
+                    resultado +=items.startDate+"</td><td>";
+                    resultado +=items.devolutionDate+"</td><td>";
+                    resultado +=items.client.name+"</td><td>";
+                    resultado +=items.lib+"</td><td>";
+                    resultado +=items.status+"</td><td>";
+                    resultado +="<button onclick=\"editar("+items.idReservation+")\" class=\"btn btn-light btn-lg action-button botones\">Editar</button><button onclick=\"borrar("+items.idReservation+")\" class=\"btn btn-light btn-lg action-button botones\">Borrar</button></td></tr>";
+                 });
+                 $(".cuerpoTablaConsultarReservas").html(resultado);
+
+              },
+              error: function(xhr,status){
+                 //console.log(xhr,responseText);
+              },
+              complete: function(xhr,status){
+                //  console.log(xhr,responseText);
+              }
+           });
+            
+
+        }
+
+        function globalCount(){
+            var hola = ""
+            hola +="<tr><td>Completed</td><td>"
+            hola +="Cancelled</td><tr>"
+            $(".encabezadoGlobalCount").html(hola)
+
+            $.ajax({            
+              url: 'http://144.22.56.43:8080/api/Reservation/report-status',
+              type: 'GET',
+              dataType: 'JSON',
+              success: function(response){
+
+                var resultado = "";
+                resultado +="<tr><td>"+response.completed+"</td><td>";
+                resultado +=response.cancelled+"</td><tr>";
+                 
+                 $(".cuerpoTablaGlobalCount").html(resultado);
+
+              },
+              error: function(xhr,status){
+                 //console.log(xhr,responseText);
+              },
+              complete: function(xhr,status){
+                //  console.log(xhr,responseText);
+              }
+           });
+            
+
+        }
+        
+        function topClient(){
+            
+            $.ajax({            
+              url: 'http://144.22.56.43:8080/api/Reservation/report-clients',
+              type: 'GET',
+              dataType: 'JSON',
+              success: function(response){
+                let resultado = ""
+                
+                response.forEach(function(items){
+                    resultado +="<tr><td><b>Client: "+items.client.name+"<b/></td><td><b>Total";
+                    resultado +=items.total+"</b></td></tr>";
+                    items.client.reservations.forEach(function(h){
+                        resultado +="<tr><td>"+h.idReservation+"</td><td>";
+                        resultado +=h.starDate+"</td><td>";
+                        resultado +=h.devolutionDate+"</td><td>";
+                        resultado +=h.score+"</td><td>";
+                        resultado +=h.status+"</td><tr";
+                    })
+                   
+                 });
+                 
+                 $(".cuerpoTablaTopClient").html(resultado);
+
+              },
+              error: function(xhr,status){
+                 //console.log(xhr,responseText);
+              },
+              complete: function(xhr,status){
+                //  console.log(xhr,responseText);
+              }
+           });
+            
+
+        }
+
+        $(document).ready(function(){
+            
+            cargarTabla();
+        });
+    </script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/bs-init.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.4.8/swiper-bundle.min.js"></script>
+    <script src="assets/js/Simple-Slider.js"></script>
+    
+</body>
+
+</html>
